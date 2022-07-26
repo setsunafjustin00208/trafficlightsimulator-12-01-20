@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PHP Controlled Arduino</title>
+</head>
+<body>
+<?php
+$portWay = "COM4";
+$port    = fopen($portWay, "w+");
+
+if ($port === false) {
+	die("PORT ERROR OR BUSY");
+
+} else {
+	echo "PORT IS LISTENING";
+}
+sleep(2);
+
+?>
+<form action="index.php" method="POST">
+	 	<input type="hidden" name="turn" value="red">
+	 	<input type="submit"  value="RED">
+
+
+	 </form>
+
+	  <form action="index.php" method="POST">
+	 	<input type="hidden" name="turn" value="off">
+	 	<input type="submit"  value="OFF">
+ 	</form>
+
+	 	<form action="index.php" method="POST">
+	 	<input type="hidden" name="turn" value="yellow">
+	 	<input type="submit"  value="YELLOW">
+
+
+	 </form>
+
+<?php
+if ($_POST['turn'] == "red") {
+	echo "RED IS ON";
+	fwrite($port, 'r');
+
+} else if ($_POST['turn'] == "off") {
+	echo "TURN OFF";
+	fwrite($port, 'f');
+
+} else if ($_POST['turn'] == "yellow") {
+	echo "YELLOW IS ON";
+	fwrite($port, 'y');
+
+}
+fclose($port);
+
+?>
+</body>
+</html>
